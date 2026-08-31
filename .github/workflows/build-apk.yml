@@ -20,8 +20,8 @@ jobs:
 
     - name: Find Project and Build APK
       run: |
-        PROJECT_DIR=$(find . -name "build.gradle*" -exec dirname {} \; | head -n 1)
-        echo "Projekt mappa: $PROJECT_DIR"
+        PROJECT_DIR=$(find . -not -path '*/.*' -name "build.gradle*" -exec dirname {} \; | head -n 1)
+        echo "Megtalalt projekt mappa: $PROJECT_DIR"
         cd "$PROJECT_DIR"
         gradle wrapper
         chmod +x gradlew
