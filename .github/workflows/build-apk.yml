@@ -18,8 +18,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Generate Wrapper and Build APK
-      working-directory: TuneG2-main
+    - name: Setup Gradle Wrapper and Build APK
       run: |
         gradle wrapper
         chmod +x gradlew
@@ -29,5 +28,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
-        path: TuneG2-main/app/build/outputs/apk/debug/app-debug.apk
-        
+        path: app/build/outputs/apk/debug/app-debug.apk
