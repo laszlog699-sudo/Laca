@@ -1,4 +1,4 @@
-name: Debug Repository Files
+name: Build APK
 
 on:
   push:
@@ -6,14 +6,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  debug:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - name: Clone TuneG2 Repository
+      uses: actions/checkout@v4
+      with:
+        repository: 'memuguenstig-lab/TuneG2'
 
-    - name: List all files in repository
-      run: |
-        echo "=== Repozitórium tartalma ==="
-        find . -maxdepth 3 -not -path '*/.*'
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build APK with Gradle
+      run: ./gradlew assembleDebug
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk
         
